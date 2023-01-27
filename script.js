@@ -3,11 +3,16 @@
 // in the html.
 const row = document.getElementsByClassName("row")
 // let currentHour= parseInt(moment().format('H'));
-var now = dayjs();
+var now = dayjs().format("MMMM DD,YYYY")
+$("#datetime").text(now)
+console.log(now)
 let date = new Date();
-alert( date.getHours() );
-let workHours =[9,10,11,12,13,14,15,16,17]
-
+//let workHours =[9,10,11,12,13,14,15,16,17]
+$(".saveBtn").on("click",function(){
+  var hourKey =$(this).parent().attr("id").split("-").pop()
+  var activity =$(this).siblings(".description").val()
+localStorage.setItem(hourKey,activity)
+})
 // const colorSetter = document.getElementsByClassName("colorsetter");
 // let hourNow = Date.now().getHours();//current hour
 //fuction that sets color based on time 
@@ -20,20 +25,28 @@ function poulateTimeblocks () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
 
-for(let i = 0; i < workHours.length; i++)  {
+for(let i = 9; i < 18; i++)  {
   // let textarea = document.createelement("textarea")
   //textarea.style.border = "1px solid black"
-  let targetBlock = document.getElementById(`hour-${workHours[i]}`)
+  let targetBlock = document.getElementById(`hour-${i}`)
+  $("#textarea-"+i).val(localStorage.getItem(i))
   let currentHour = date.getHours()
-  if (workHours[i] <   currentHour ){
+  if (i<   currentHour ){
 targetBlock.setAttribute("class","row time-block past")
-  } else if (workHours[i] ===   currentHour ) {
+  } else if (i ===   currentHour ) {
     targetBlock.setAttribute("class","row time-block present")
-  }else if (workHours[i] >   currentHour){
+  }else if (i >   currentHour){
     targetBlock.setAttribute("class","row time-block future")
   }
 
 }
+
+
+// set key
+
+
+// remove key
+
   //
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
